@@ -3,9 +3,10 @@ package main
 import "fmt"
 
 type pengguna struct {
-	nama, status, password string
-	totalPinjaman          float64
-	tenor, umur            int
+	nama, password string
+	totalPinjaman  float64
+	tenor, umur    int
+	status         bool
 }
 
 type admin struct {
@@ -32,6 +33,7 @@ func menu1() {
 		fmt.Println("1. Login")
 		fmt.Println("2. Register")
 		fmt.Println("0. Keluar")
+		fmt.Print("Pilihan : ")
 		fmt.Scan(&pilihan)
 		switch pilihan {
 		case 1:
@@ -53,6 +55,7 @@ func register(p *data, ad *adm, bPengguna, bAdmin *int) {
 	fmt.Println("Menu Register")
 	fmt.Println("1. Admin")
 	fmt.Println("2. Pengguna")
+	fmt.Print("Pilihan : ")
 	fmt.Scan(&adm)
 	if adm == 1 {
 		fmt.Println("Nama :")
@@ -153,6 +156,7 @@ func login(p *data, ad *adm, bPengguna, bAdmin *int) {
 
 func menuUser(p *data, idx int, bPengguna *int, pinjol *bool) {
 	var pilihan int
+	var bayar float64
 	pilihan = -1
 	for pilihan != 0 {
 		fmt.Println("=== Menu Pengguna ===")
@@ -161,15 +165,15 @@ func menuUser(p *data, idx int, bPengguna *int, pinjol *bool) {
 		fmt.Println("3. Bayar Pinjaman")
 		fmt.Println("4. Laporan Jumlah Pinjaman")
 		fmt.Println("0. Keluar")
-		fmt.Println("Pilih : ")
+		fmt.Print("Pilih : ")
 		fmt.Scan(&pilihan)
 		switch pilihan {
 		case 1:
-			painjol(&*p, &*pinjol, &*bPengguna, &idx)
+			painjol(&*p, &*pinjol, &*bPengguna, &idx, &bayar)
 		case 2:
-			ubahUser()
+			ubahUser(&*p, idx)
 		case 3:
-			bayar()
+			membayar(&*p, idx, &bayar)
 		case 4:
 			laporan()
 		default:
@@ -178,7 +182,7 @@ func menuUser(p *data, idx int, bPengguna *int, pinjol *bool) {
 	}
 }
 
-func painjol(p *data, pinjol *bool, bPengguna, idx *int) {
+func painjol(p *data, pinjol *bool, bPengguna, idx *int, bayar *float64) {
 	//	var duid, bunga float64
 	var pilih, tenor int
 	var pinjem bool
@@ -191,7 +195,7 @@ func painjol(p *data, pinjol *bool, bPengguna, idx *int) {
 	fmt.Println("5. RP.5.000.000")
 	fmt.Println("6. RP.10.000.000")
 	fmt.Println("0. Keluar")
-	fmt.Println("Pilih :")
+	fmt.Print("Pilih :")
 	fmt.Scan(&pilih)
 	switch pilih {
 	case 1:
@@ -218,11 +222,17 @@ func painjol(p *data, pinjol *bool, bPengguna, idx *int) {
 		fmt.Println("Tidak ada pilihan tersebut")
 	}
 	if pinjem {
-		for tenor != 6 && tenor != 12 && tenor != 18 && tenor != 24 {
-			fmt.Println("Pilih Tenor Baru | 6 | 12 | 18 | 24 |")
+		fmt.Println("Batas Tenor adalah 36 bulan")
+		for tenor != 6 && tenor != 12 && tenor != 18 && tenor != 24 && tenor != 36 {
+			fmt.Println("Pilih Tenor Baru | 6 | 12 | 18 | 24 | 36 |")
 			fmt.Scan(&tenor)
-			if tenor == 6 || tenor == 12 || tenor == 18 || tenor == 24 {
+			if tenor == 6 || tenor == 12 || tenor == 18 || tenor == 24 || tenor == 36 {
 				(*p)[*idx].tenor += tenor
+				*bayar = bunga(*p, *idx)
+				(*p)[*idx].totalPinjaman = *bayar
+				if (*p)[*idx].tenor > 36 {
+					(*p)[*idx].tenor = 36
+				}
 				*pinjol = true
 			}
 		}
@@ -232,11 +242,61 @@ func painjol(p *data, pinjol *bool, bPengguna, idx *int) {
 	}
 }
 
-func ubahUser() {
-
+func ubahUser(p *data, idx int) {
+	var pilih int
+	pilih = -1
+	for pilih != 0 {
+		fmt.Println("Halo", (*p)[idx].nama, "Ingin Mengubah Data Apa?")
+		fmt.Println("1.Nama")
+		fmt.Println("2.Password")
+		fmt.Println("0.Keluar")
+		fmt.Print("Pilihan : ")
+		fmt.Scan(&pilih)
+		switch pilih {
+		case 1:
+			fmt.Println("Nama Baru :")
+			fmt.Scan(&(*p)[idx].nama)
+		case 2:
+			fmt.Println("Password Baru :")
+			fmt.Scan(&(*p)[idx].password)
+		default:
+			fmt.Println("Input Tidak Sesuai")
+		}
+	}
 }
 
-func bayar() {
+func membayar(p *data, idx int, bayar *float64) {
+	var pilih, bulan, tenor int
+
+	tenor = (*p)[idx].tenor
+	for pilih != 2 {
+		if (*p)[idx].totalPinjaman <= 0 {
+			(*p)[idx].totalPinjaman = 0
+			(*p)[idx].tenor = 0
+		}
+		fmt.Printf("Total Yang harus Dibayar adalah RP. %.2f Dengan tenor selama %d\n", bunga(*p, idx), (*p)[idx].tenor)
+		fmt.Printf("Total Yang harus dibayarkan bulan ini adalah %.2f\n", *bayar/float64((*p)[idx].tenor))
+		fmt.Println("Sudah Bayar ", bulan, " Bulan")
+		fmt.Println("Bayar Sekarang?")
+		fmt.Println("1. Ya")
+		fmt.Println("2. Nanti Saja")
+		fmt.Print("Pilihan : ")
+		fmt.Scan(&pilih)
+		switch pilih {
+		case 1:
+			if (*p)[idx].totalPinjaman > 0 {
+				(*p)[idx].totalPinjaman -= *bayar / float64(tenor)
+				(p)[idx].status = true
+				bulan++
+			} else {
+				fmt.Println("Sudah Lunas")
+			}
+		case 2:
+			return
+		default:
+			fmt.Println("Tidak Ada Pilihan Tersebut")
+		}
+	}
 
 }
 
@@ -244,10 +304,18 @@ func laporan() {
 
 }
 
+func bunga(p data, idx int) float64 {
+	var tenor int
+	var bunga, total float64
+	tenor = p[idx].tenor
+	bunga = 9.0 / 100 / 12
+	total = float64(p[idx].totalPinjaman) * bunga * float64(tenor)
+	return float64(p[idx].totalPinjaman) + total
+}
+
 func menuAdm(p *data, idx int, bPengguna *int, pinjol *bool) {
 	var pilihan int
 
-	//	var ad admin
 	pilihan = -1
 	for pilihan != 0 {
 		fmt.Println("=== Menu Admin ===")
@@ -262,6 +330,8 @@ func menuAdm(p *data, idx int, bPengguna *int, pinjol *bool) {
 		switch pilihan {
 		case 1:
 			ubah(&*p, &(*bPengguna))
+		case 2:
+			hapus(&*p, &*bPengguna)
 		}
 	}
 }
@@ -289,8 +359,9 @@ func ubah(p *data, bPengguna *int) {
 				fmt.Println("Tenor : ", (*p)[idx].tenor)
 				fmt.Println("Data mana yang ingin diubah")
 				fmt.Println("1.Nama")
-				fmt.Println("2.Total Pinjaman")
-				fmt.Println("3.Tenor")
+				fmt.Println("2.Password")
+				fmt.Println("3.Total Pinjaman")
+				fmt.Println("4.Tenor")
 				fmt.Println("0.Stop")
 				fmt.Scan(&tes)
 				switch tes {
@@ -298,9 +369,12 @@ func ubah(p *data, bPengguna *int) {
 					fmt.Print("Masukkan Nama Baru : ")
 					fmt.Scan(&(*p)[idx].nama)
 				case 2:
+					fmt.Print("Masukkan Password Baru : ")
+					fmt.Scan(&(*p)[idx].password)
+				case 3:
 					fmt.Print("Masukkan Pinjaman Baru : ")
 					fmt.Scan(&(*p)[idx].totalPinjaman)
-				case 3:
+				case 4:
 					for tenor != 6 && tenor != 12 && tenor != 18 && tenor != 24 {
 						fmt.Println("Pilih Tenor Baru | 6 | 12 | 18 | 24 |")
 						fmt.Scan(&tenor)
@@ -314,4 +388,31 @@ func ubah(p *data, bPengguna *int) {
 			}
 		}
 	}
+}
+
+func hapus(p *data, bPengguna *int) {
+	var nama string
+	var idx, i int
+	idx = -1
+
+	fmt.Print("Masukkan nama pengguna yang ingin dihapus: ")
+	fmt.Scan(&nama)
+
+	for i = 0; i < *bPengguna; i++ {
+		if (*p)[i].nama == nama && idx == -1 {
+			idx = i
+		}
+	}
+
+	if idx == -1 {
+		fmt.Println("Pengguna tidak ditemukan.")
+		return
+	}
+
+	for i = idx; i < *bPengguna-1; i++ {
+		(*p)[i] = (*p)[i+1]
+	}
+
+	*bPengguna--
+	fmt.Println("Data berhasil dihapus.")
 }
