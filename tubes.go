@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"os/exec"
 	"os"
+	"os/exec"
 )
 
 type pengguna struct {
@@ -24,36 +24,24 @@ type data [max]pengguna
 type adm [max]admin
 
 func main() {
+	header()
 	menu1()
+}
+func header() {
+	fmt.Printf("%25s╔═════════════════════════════════════════════════════════════════════════╗\n", "")
+	fmt.Printf("%25s║%73s║\n", "", "")
+	fmt.Printf("%25s║%53s%-20s║\n", "", "", "")
+	fmt.Printf("%25s║%55s %17s║\n", "", "", "")
+	fmt.Printf("%25s║%59s %13s║\n", "", "", "")
+	fmt.Printf("%25s╠═════════════════════════════════════════════════════════════════════════╣\n", "")
 }
 
 func menu1() {
 	var pilihan, banyakPengguna, banyakAdmin int
 	var p data
 	var ad adm
-	ad[0] = admin{
-		nama:     "1",
-		password: "123",
-		id:       1,
-	}
-	p[0] = pengguna{
-		nama:          "akmal",
-		password:      "1",
-		totalPinjaman: 500000,
-		tenor:         6,
-		id:            1,
-		status:        true,
-	}
-	p[1] = pengguna{
-		nama:          "fathan",
-		password:      "1",
-		totalPinjaman: 100000,
-		tenor:         12,
-		id:            2,
-		status:        false,
-	}
-	banyakPengguna += 2
-	banyakAdmin++
+	loaduser(&p, &banyakPengguna)
+	loadadm(&ad, &banyakAdmin)
 	pilihan = -1
 	for pilihan != 0 {
 		fmt.Println("=== Menu ===")
@@ -475,6 +463,7 @@ func hapus(p *data, bPengguna *int) {
 	var nama string
 	var idx, i, id int
 	idx = -1
+	cetaktotal(*p, *bPengguna)
 
 	fmt.Println("Masukkan Nama dan Id pengguna yang ingin dihapus")
 	fmt.Print("Masukkan Nama : ")
@@ -544,14 +533,14 @@ func cetakcari(p data, bPengguna, cek int) {
 }
 func cetaktotal(p data, bPengguna int) {
 	var status string
-	fmt.Printf("%-20s %-20s %-15s %-15s\n", "Nama", "Total Peminjaman", "Tenor(bulan)", "Status")
+	fmt.Printf("%-5s %-20s %-20s %-15s %-15s\n", "ID", "Nama", "Total Peminjaman", "Tenor(bulan)", "Status")
 	for i := 0; i < bPengguna; i++ {
 		if p[i].status == false {
 			status = "Belum Lunas"
 		} else {
 			status = "Sudah Lunas"
 		}
-		fmt.Printf("%-20s %-20.2f %-15d %-15s\n", p[i].nama, p[i].totalPinjaman, p[i].tenor, status)
+		fmt.Printf("%-5d %-20s %-20.2f %-15d %-15s\n", p[i].id, p[i].nama, p[i].totalPinjaman, p[i].tenor, status)
 	}
 	fmt.Println(" ")
 }
@@ -640,4 +629,29 @@ func clear() {
 	cmd := exec.Command("cmd", "/c", "cls")
 	cmd.Stdout = os.Stdout
 	cmd.Run()
+}
+
+func dummyuser(nama, password string, totalpinjaman float64, tenor, id int, status bool) pengguna {
+	return pengguna{nama: nama, password: password, totalPinjaman: totalpinjaman, tenor: tenor, id: id, status: status}
+}
+func loaduser(A *data, bPengguna *int) {
+	A[*bPengguna] = dummyuser("akmal", "1", 500000, 6, 1, false)
+	*bPengguna += 1
+	A[*bPengguna] = dummyuser("budi", "2", 750000, 12, 2, true)
+	*bPengguna += 1
+	A[*bPengguna] = dummyuser("citra", "3", 600000, 6, 3, false)
+	*bPengguna += 1
+	A[*bPengguna] = dummyuser("dian", "4", 850000, 12, 4, true)
+	*bPengguna += 1
+	A[*bPengguna] = dummyuser("eka", "5", 700000, 18, 5, false)
+	*bPengguna += 1
+
+}
+
+func dummyadm(nama, password string, id int) admin {
+	return admin{nama: nama, password: password, id: id}
+}
+func loadadm(A *adm, bAdmin *int) {
+	A[*bAdmin] = dummyadm("adm", "1", 1)
+	*bAdmin += 1
 }
