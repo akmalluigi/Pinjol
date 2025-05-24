@@ -51,13 +51,12 @@ func menu1() {
 	pilihan = -1
 	for pilihan != 0 {
 		fmt.Println("╔════════════════════════════════════════════════╗")
-		fmt.Println("║               	PINJAMAN        		      ║")
+		fmt.Printf("║%27s %-19s ║\n", "PINJAMAN", "")
 		fmt.Println("╠════════════════════════════════════════════════╣")
-		fmt.Println("║  1. Login                                      ║")
-		fmt.Println("║  2. Register                                   ║")
-		fmt.Println("║  0. Keluar                                     ║")
+		fmt.Println("║〔1〕 Login                                     ║")
+		fmt.Println("║〔2〕 Register                                  ║")
 		fmt.Println("╚════════════════════════════════════════════════╝")
-		fmt.Print(" Pilih opsi : ")
+		fmt.Print(" Pilih opsi〔0 untuk keluar〕 : ")
 		fmt.Scan(&pilihan)
 		switch pilihan {
 		case 1:
@@ -78,10 +77,13 @@ func register(p *data, ad *adm, bPengguna, bAdmin *int) {
 	clear()
 	var adm, id int
 	id = 10
-	fmt.Println("=== Menu Register ===")
-	fmt.Println("1. Admin")
-	fmt.Println("2. Pengguna")
-	fmt.Print("Pilihan : ")
+	fmt.Println("╔════════════════════════════════════════════════╗")
+	fmt.Printf("║%27s %-19s ║\n", "REGISTER", "")
+	fmt.Println("╠════════════════════════════════════════════════╣")
+	fmt.Printf("║%-27s %-19s ║\n", "〔1〕 Admin", "")
+	fmt.Printf("║%-27s %-19s ║\n", "〔2〕 Pengguna", "")
+	fmt.Println("╚════════════════════════════════════════════════╝")
+	fmt.Print("Pilihan 〔0 untuk kembali〕: ")
 	fmt.Scan(&adm)
 	if adm == 1 {
 		fmt.Print("Nama :")
@@ -101,8 +103,11 @@ func register(p *data, ad *adm, bPengguna, bAdmin *int) {
 		(*p)[*bPengguna].id = id
 		*bPengguna += 1
 
+	} else if adm == 0 {
+		return
 	} else {
 		fmt.Println("Tidak Valid")
+
 	}
 
 }
@@ -116,17 +121,26 @@ func login(p *data, ad *adm, bPengguna, bAdmin *int) {
 	role = -1
 
 	for role != 0 {
-		fmt.Println("=== Menu Login ===")
-		fmt.Println("1. Login sebagai Admin")
-		fmt.Println("2. Login sebagai Pengguna")
-		fmt.Println("0. Keluar")
-		fmt.Print("Pilih: ")
+		clear()
+		fmt.Println("╔════════════════════════════════════════════════╗")
+		fmt.Printf("║%27s %-19s ║\n", "LOGIN", "")
+		fmt.Println("╠════════════════════════════════════════════════╣")
+		fmt.Printf("║%-27s %-17s ║\n", "〔1〕Login sebagai Admin", "")
+		fmt.Printf("║%-27s %-17s ║\n", "〔2〕Login sebagai Pengguna", "")
+		fmt.Println("╚════════════════════════════════════════════════╝")
+		fmt.Print("Pilihan 〔0 untuk kembali〕: ")
 		fmt.Scan(&role)
 
 		idx = -1
 		user = false
 
 		if role == 1 {
+			clear()
+			fmt.Println("╔════════════════════════════════════════════════╗")
+			fmt.Printf("║%27s %-19s ║\n", "LOGIN", "")
+			fmt.Println("╠════════════════════════════════════════════════╣")
+			fmt.Printf("║%-27s %-8s ║\n", " Silahkan Masukan Data Yang Dibutuhkan", "")
+			fmt.Println("╚════════════════════════════════════════════════╝")
 			fmt.Print("Masukkan username admin: ")
 			fmt.Scan(&nama)
 			fmt.Print("Masukkan password admin: ")
@@ -189,15 +203,15 @@ func menuUser(p *data, idx int, bPengguna *int, pinjol *bool) {
 	var bayar float64
 	pilihan = -1
 	for pilihan != 0 {
-		fmt.Println("╔════════════════════════════════════════════════╗")
-		fmt.Println("║                MENU PENGGUNA                   ║")
-		fmt.Println("╠════════════════════════════════════════════════╣")
-		fmt.Println("║  1. Ajukan Pinjaman                            ║")
-		fmt.Println("║  2. Pengaturan Akun                            ║")
-		fmt.Println("║  3. Bayar Pinjaman                             ║")
-		fmt.Println("║  4. Lihat Riwayat Pinjaman                     ║")
-		fmt.Println("║  0. Logout                                     ║")
-		fmt.Println("╚════════════════════════════════════════════════╝")
+		fmt.Println("╔════════════════════════════════════════════════════════════════════════════════════╗")
+		fmt.Printf("║%50s %-33s║\n", "MENU PENGGUNA", "")
+		fmt.Println("╠════════════════════════════════════════════════════════════════════════════════════╣")
+		fmt.Printf("║%-48s %-33s║\n", "〔1〕 Ajukan Pinjaman", "")
+		fmt.Printf("║%-48s %-33s║\n", "〔2〕 Pengaturan Akun", "")
+		fmt.Printf("║%-48s %-33s║\n", "〔3〕 Bayar Pinjaman", "")
+		fmt.Printf("║%-48s %-33s║\n", "〔4〕 Lihat Riwayat Pinjaman", "")
+		fmt.Printf("║%-48s %-33s║\n", "〔0〕 Logout", "")
+		fmt.Println("╚════════════════════════════════════════════════════════════════════════════════════╝")
 		fmt.Print(" Pilih opsi (1-4): ")
 
 		fmt.Scan(&pilihan)
@@ -407,17 +421,18 @@ func menuAdm(p *data, ad *adm, idx int, bPengguna *int, pinjol *bool) {
 
 	pilihan = -1
 	for pilihan != 0 {
-		fmt.Println("╔════════════════════════════════════════════════╗")
-		fmt.Println("║               MENU ADMINISTRATOR               ║")
-		fmt.Println("╠════════════════════════════════════════════════╣")
-		fmt.Println("║  1. Ubah Data Peminjam                         ║")
-		fmt.Println("║  2. Ubah Pengaturan Akun                       ║")
-		fmt.Println("║  3. Hapus Data                                 ║")
-		fmt.Println("║  4. Cari Data                                  ║")
-		fmt.Println("║  5. Urut Data                                  ║")
-		fmt.Println("║  0. Logout                                     ║")
-		fmt.Println("╚════════════════════════════════════════════════╝")
-		fmt.Print(" Pilih opsi (1-4): ")
+		cetaktotal(*p, *bPengguna)
+		fmt.Println("╔════════════════════════════════════════════════════════════════════════════════════╗")
+		fmt.Printf("║%50s %-33s║\n", "MENU ADMINISTRATOR", "")
+		fmt.Println("╠════════════════════════════════════════════════════════════════════════════════════╣")
+		fmt.Printf("║%-48s %-33s║\n", "〔1〕 Ubah Data Peminjam", "")
+		fmt.Printf("║%-48s %-33s║\n", "〔2〕 Ubah Pengaturan Akun", "")
+		fmt.Printf("║%-48s %-33s║\n", "〔3〕 Hapus Data", "")
+		fmt.Printf("║%-48s %-33s║\n", "〔4〕 Cari Data", "")
+		fmt.Printf("║%-48s %-33s║\n", "〔5〕 Urut Data", "")
+		fmt.Printf("║%-48s %-33s║\n", "〔0〕 Logout", "")
+		fmt.Println("╚════════════════════════════════════════════════════════════════════════════════════╝")
+		fmt.Print("Pilihan 〔0 untuk kembali〕: ")
 		fmt.Scan(&pilihan)
 		switch pilihan {
 		case 1:
@@ -429,6 +444,7 @@ func menuAdm(p *data, ad *adm, idx int, bPengguna *int, pinjol *bool) {
 		case 4:
 			caridata(*p, *bPengguna)
 		case 5:
+			clear()
 			Urut(p, *bPengguna)
 		}
 	}
@@ -440,12 +456,12 @@ func ubah(p *data, bPengguna *int) {
 	if *bPengguna >= 1 {
 		tes = -1
 		idx = -1
+		clear()
 		for tes != 0 {
-			fmt.Println(p[i].nama, p[i].id)
-			fmt.Println("Input Nama dan ID yang datanya ingin diubah")
+			cetaktotal(*p, *bPengguna)
 			fmt.Print("Input Nama : ")
 			fmt.Scan(&nama)
-			fmt.Print("Input Id :")
+			fmt.Print("Input Id : ")
 			fmt.Scan(&id)
 
 			for i = 0; i < *bPengguna; i++ {
@@ -454,19 +470,27 @@ func ubah(p *data, bPengguna *int) {
 				}
 			}
 			if idx == -1 {
+				clear()
 				fmt.Println("Data Tidak Ditemukan")
 			} else {
 				for tes != 0 {
-					fmt.Println("Data Ditemukan ")
-					fmt.Println("Nama : ", (*p)[idx].nama)
-					fmt.Println("Total Pinjaman : ", (*p)[idx].totalPinjaman)
-					fmt.Println("Tenor : ", (*p)[idx].tenor)
-					fmt.Println("Data mana yang ingin diubah")
-					fmt.Println("1.Nama")
-					fmt.Println("2.Password")
-					fmt.Println("3.Total Pinjaman")
-					fmt.Println("4.Tenor")
-					fmt.Println("0.Stop")
+					clear()
+					fmt.Println("╔════════════════════════════════════════════════════════════════════════════════════╗")
+					fmt.Printf("║%48s %-35s║\n", "DATA DTEMUKAN", "")
+					fmt.Println("╠════════════════════════════════════════════════════════════════════════════════════╣")
+					fmt.Printf("║ Nama %-12s: %-48s %-15s║\n", "", (*p)[idx].nama, "")
+					fmt.Printf("║ Total Pinjaman %-2s: %-48.2f %-15s║\n", "", (*p)[idx].totalPinjaman, "")
+					fmt.Printf("║ Tenor %-11s: %-48d %-15s║\n", "", (*p)[idx].tenor, "")
+					fmt.Println("╠════════════════════════════════════════════════════════════════════════════════════╣")
+					fmt.Printf("║ %-48s %-34s║\n", "Data mana yang ingin anda ubah", "")
+					fmt.Println("╠════════════════════════════════════════════════════════════════════════════════════╣")
+					fmt.Printf("║%-48s %-33s║\n", "〔1〕Nama", "")
+					fmt.Printf("║%-48s %-33s║\n", "〔2〕Password", "")
+					fmt.Printf("║%-48s %-33s║\n", "〔3〕Total Pinjaman", "")
+					fmt.Printf("║%-48s %-33s║\n", "〔4〕Tenor", "")
+					fmt.Printf("║%-48s %-33s║\n", "〔0〕Kembali", "")
+					fmt.Println("╚════════════════════════════════════════════════════════════════════════════════════╝")
+					fmt.Print("Pilihan 〔0 untuk kembali〕: ")
 					fmt.Scan(&tes)
 					switch tes {
 					case 1:
@@ -480,13 +504,33 @@ func ubah(p *data, bPengguna *int) {
 						fmt.Scan(&(*p)[idx].totalPinjaman)
 					case 4:
 						for tenor != 6 && tenor != 12 && tenor != 18 && tenor != 24 {
-							fmt.Println("Pilih Tenor Baru | 6 | 12 | 18 | 24 |")
+							clear()
+							fmt.Println("╔════════════════════════════════════════════════════════════════════════════════════╗")
+							fmt.Printf("║%48s %-35s║\n", "DATA DTEMUKAN", "")
+							fmt.Println("╠════════════════════════════════════════════════════════════════════════════════════╣")
+							fmt.Printf("║ Nama %-12s: %-48s %-15s║\n", "", (*p)[idx].nama, "")
+							fmt.Printf("║ Total Pinjaman %-2s: %-48.2f %-15s║\n", "", (*p)[idx].totalPinjaman, "")
+							fmt.Printf("║ Tenor %-11s: %-48d %-15s║\n", "", (*p)[idx].tenor, "")
+							fmt.Println("╠════════════════════════════════════════════════════════════════════════════════════╣")
+							fmt.Printf("║ %-48s %-34s║\n", "Data mana yang ingin anda ubah", "")
+							fmt.Println("╠════════════════════════════════════════════════════════════════════════════════════╣")
+							fmt.Printf("║%-48s %-33s║\n", "〔1〕Nama", "")
+							fmt.Printf("║%-48s %-33s║\n", "〔2〕Password", "")
+							fmt.Printf("║%-48s %-33s║\n", "〔3〕Total Pinjaman", "")
+							fmt.Printf("║%-48s %-33s║\n", "〔4〕Tenor", "")
+							fmt.Printf("║%-48s %-33s║\n", "〔0〕Kembali", "")
+							fmt.Println("╠════════════════════════════════════════════════════════════════════════════════════╣")
+							fmt.Println("╠════════════════════════════════════════════════════════════════════════════════════╣")
+							fmt.Printf("║ %-48s %-34s║\n", "Pilih Tenor Baru | 6 | 12 | 18 | 24 |", "")
+							fmt.Println("╚════════════════════════════════════════════════════════════════════════════════════╝")
+							fmt.Print("Pilihan 〔0 untuk kembali〕: ")
 							fmt.Scan(&tenor)
 							if tenor == 6 || tenor == 12 || tenor == 18 || tenor == 24 {
 								(*p)[idx].tenor = tenor
 							}
 						}
 					case 0:
+						clear()
 						return
 					}
 				}
@@ -498,22 +542,26 @@ func ubah(p *data, bPengguna *int) {
 }
 
 func ubahAdm(ad *adm, idx int) {
-	clear()
 	var pilih int
 	pilih = -1
 	for pilih != 0 {
-		fmt.Println("Halo", (*ad)[idx].nama, "Ingin Mengubah Data Apa?")
-		fmt.Println("1.Nama")
-		fmt.Println("2.Password")
-		fmt.Println("0.Keluar")
+		clear()
+		fmt.Println("╔════════════════════════════════════════════════════════════════════════════════════╗")
+		fmt.Printf("║ %-5s %-15s %-61s║\n", "Halo", (*ad)[idx].nama, "Ingin Mengubah Data Apa?")
+		fmt.Println("╠════════════════════════════════════════════════════════════════════════════════════╣")
+		fmt.Printf("║%-48s %-33s║\n", "〔1〕Nama", "")
+		fmt.Printf("║%-48s %-33s║\n", "〔2〕Password", "")
+		fmt.Printf("║%-48s %-33s║\n", "〔0〕Kembali", "")
+		fmt.Println("╠════════════════════════════════════════════════════════════════════════════════════╣")
+
 		fmt.Print("Pilihan : ")
 		fmt.Scan(&pilih)
 		switch pilih {
 		case 1:
-			fmt.Println("Nama Baru :")
+			fmt.Print("Nama Baru :")
 			fmt.Scan(&(*ad)[idx].nama)
 		case 2:
-			fmt.Println("Password Baru :")
+			fmt.Print("Password Baru :")
 			fmt.Scan(&(*ad)[idx].password)
 		default:
 			fmt.Println("Input Tidak Sesuai")
@@ -526,8 +574,11 @@ func hapus(p *data, bPengguna *int) {
 	var nama string
 	var idx, i, id int
 	idx = -1
+	cetaktotal(*p, *bPengguna)
+	fmt.Println("╔════════════════════════════════════════════════════════════════════════════════════╗")
+	fmt.Printf("║%48s %-35s║\n", "Masukkan Nama dan Id pengguna yang ingin dihapus", "")
+	fmt.Println("╚════════════════════════════════════════════════════════════════════════════════════╝")
 
-	fmt.Println("Masukkan Nama dan Id pengguna yang ingin dihapus")
 	fmt.Print("Masukkan Nama : ")
 	fmt.Scan(&nama)
 	fmt.Print("Masukkan ID : ")
@@ -549,59 +600,8 @@ func hapus(p *data, bPengguna *int) {
 	}
 
 	*bPengguna--
+	clear()
 	fmt.Println("Data berhasil dihapus.")
-}
-func carid(p data, bPengguna int, x string, idx *int) pengguna {
-	var left, right, mid int
-	*idx = -1
-	left = 0
-	right = bPengguna - 1
-	for left <= right && *idx == -1 {
-		mid = (left + right) / 2
-		if x < p[mid].nama {
-			right = mid - 1
-		} else if x > p[mid].nama {
-			left = mid + 1
-		} else {
-			*idx = mid
-		}
-
-	}
-	return p[*idx]
-}
-func caridata(p data, bPengguna int) {
-	var x string
-	cetaktotal(p, bPengguna)
-	fmt.Print("Ketikan nama pengguna yang ingin anda cari: ")
-	fmt.Scan(&x)
-	fmt.Println(" ")
-	var cek int
-	carid(p, bPengguna, x, &cek)
-	cetakcari(p, bPengguna, cek)
-}
-func cetakcari(p data, bPengguna, cek int) {
-	var status string
-	fmt.Printf("%-20s %-20s %-15s %-15s\n", "Nama", "Total Peminjaman", "Tenor(bulan)", "Status")
-	for i := 0; i < bPengguna; i++ {
-		if p[i].status == false {
-			status = "Belum Lunas"
-		} else {
-			status = "Sudah Lunas"
-		}
-		if p[i] == p[cek] {
-			fmt.Printf("%-20s %-20.2f %-15d %-15s\n", p[i].nama, p[i].totalPinjaman, p[i].tenor, status)
-		}
-	}
-}
-func cetaktotal(p data, bPengguna int) {
-	fmt.Printf("%-20s %-20s %-15s %-15s\n", "Nama", "Total Peminjaman", "Tenor(bulan)", "Status")
-	for i := 0; i < bPengguna; i++ {
-		status := "Belum Lunas"
-		if p[i].status {
-			status = "Sudah Lunas"
-		}
-		fmt.Printf("%-20s %-20.2f %-15d %-15s\n", p[i].nama, p[i].totalPinjaman, p[i].tenor, status)
-	}
 }
 func Urut(p *data, bPengguna int) {
 	var pilih int
@@ -613,8 +613,10 @@ func Urut(p *data, bPengguna int) {
 	switch pilih {
 	case 1:
 		urutpinjam(p, bPengguna)
+		clear()
 	case 2:
 		uruttenor(p, bPengguna)
+		clear()
 	}
 
 }
@@ -649,7 +651,6 @@ func urutpinjam(p *data, bPengguna int) {
 	} else {
 		fmt.Println("Invalid")
 	}
-	cetaktotal(*p, bPengguna)
 }
 func uruttenor(p *data, bPengguna int) {
 	var pass, pil int
@@ -682,14 +683,99 @@ func uruttenor(p *data, bPengguna int) {
 	} else {
 		fmt.Println("Invalid")
 	}
-	cetaktotal(*p, bPengguna)
 }
 func clear() {
 	cmd := exec.Command("cmd", "/c", "cls")
 	cmd.Stdout = os.Stdout
 	cmd.Run()
 }
+func caridata(p data, bPengguna int) {
+	var x string
+	var cek int
+	cetaktotal(p, bPengguna)
+	fmt.Print("Ketikan nama pengguna yang ingin anda cari: ")
+	fmt.Scan(&x)
+	carid(p, bPengguna, x, &cek)
+	clear()
+	if cek == -1 {
+		fmt.Println("╔════════════════════════════════════════════════════════════════════════════════════╗")
+		fmt.Printf("║%48s %-35s║\n", "Nama pengguna tidak ditemukan.", "")
+		fmt.Println("╚════════════════════════════════════════════════════════════════════════════════════╝")
+		fmt.Println("Tekan 0 untuk kembali...")
+		var input int
+		for {
+			fmt.Scan(&input)
+			if input == 0 {
+				clear()
+				return
+			}
+			fmt.Println("Input tidak valid, tekan 0 untuk kembali...")
+		}
+	} else {
+		cetakcari(p, bPengguna, cek)
+		fmt.Println("Tekan 0 untuk kembali...")
+		var input int
+		for {
+			fmt.Scan(&input)
+			if input == 0 {
+				clear()
+				return
+			}
+			fmt.Println("Input tidak valid, tekan 0 untuk kembali...")
+		}
+	}
+}
 
+func cetakcari(p data, bPengguna, cek int) {
+	var status string
+	fmt.Println("╔════════════════════════════════════════════════════════════════════════════════════╗")
+	fmt.Printf("╠ %-5s║ %-20s║ %-20s║ %-15s║ %-15s╣\n", "ID", "Nama", "Total Peminjaman", "Tenor(bulan)", "Status")
+	fmt.Println("╠════════════════════════════════════════════════════════════════════════════════════╣")
+	if cek >= 0 && cek < bPengguna {
+		if p[cek].status == false {
+			status = "Belum Lunas"
+		} else {
+			status = "Sudah Lunas"
+		}
+		fmt.Printf("║ %-5d║ %-20s║ %-20.2f║ %-15d║ %-15s║\n", p[cek].id, p[cek].nama, p[cek].totalPinjaman, p[cek].tenor, status)
+	}
+	fmt.Println("╚════════════════════════════════════════════════════════════════════════════════════╝")
+}
+
+// Fungsi lain tetap sama seperti kode asli
+func carid(p data, bPengguna int, x string, idx *int) {
+	var left, right, mid int
+	*idx = -1
+	left = 0
+	right = bPengguna - 1
+	for left <= right {
+		mid = (left + right) / 2
+		if x < p[mid].nama {
+			right = mid - 1
+		} else if x > p[mid].nama {
+			left = mid + 1
+		} else {
+			*idx = mid
+			return
+		}
+	}
+}
+
+func cetaktotal(p data, bPengguna int) {
+	fmt.Println("╔════════════════════════════════════════════════════════════════════════════════════╗")
+	fmt.Printf("║%48s %-35s║\n", "Data Pinjaman", "")
+	fmt.Println("╠════════════════════════════════════════════════════════════════════════════════════╣")
+
+	fmt.Printf("╠ %-5s║ %-20s║ %-20s║ %-15s║ %-15s╣\n", "ID", "Nama", "Total Peminjaman", "Tenor(bulan)", "Status")
+	for i := 0; i < bPengguna; i++ {
+		status := "Belum Lunas"
+		if p[i].status {
+			status = "Sudah Lunas"
+		}
+		fmt.Printf("║ %-5d║ %-20s║ %-20.2f║ %-15d║ %-15s║\n", p[i].id, p[i].nama, p[i].totalPinjaman, p[i].tenor, status)
+	}
+	fmt.Println("╚════════════════════════════════════════════════════════════════════════════════════╝")
+}
 func dummyuser(nama, password string, totalpinjaman float64, tenor, id int, status bool) pengguna {
 	return pengguna{nama: nama, password: password, totalPinjaman: totalpinjaman, tenor: tenor, id: id, status: status, riwayatpinjam: [maxpin]riwayat{
 		{pinjamID: 1, jumlah: totalpinjaman, tenor: tenor}}, jumlahriwayat: 1}
