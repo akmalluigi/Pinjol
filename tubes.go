@@ -212,7 +212,7 @@ func menuUser(p *data, idx int, bPengguna *int, pinjol *bool) {
 		fmt.Printf("║%-48s %-33s║\n", "〔4〕 Lihat Riwayat Pinjaman", "")
 		fmt.Printf("║%-48s %-33s║\n", "〔0〕 Logout", "")
 		fmt.Println("╚════════════════════════════════════════════════════════════════════════════════════╝")
-		fmt.Print(" Pilih opsi (1-4): ")
+		fmt.Print("Pilihan 〔0 untuk logout〕: ")
 
 		fmt.Scan(&pilihan)
 		switch pilihan {
@@ -553,8 +553,7 @@ func ubahAdm(ad *adm, idx int) {
 		fmt.Printf("║%-48s %-33s║\n", "〔2〕Password", "")
 		fmt.Printf("║%-48s %-33s║\n", "〔0〕Kembali", "")
 		fmt.Println("╠════════════════════════════════════════════════════════════════════════════════════╣")
-
-		fmt.Print("Pilihan : ")
+		fmt.Print("Pilihan 〔0 untuk kembali〕")
 		fmt.Scan(&pilih)
 		switch pilih {
 		case 1:
