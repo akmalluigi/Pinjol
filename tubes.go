@@ -36,6 +36,7 @@ func main() {
 }
 
 func menu1() {
+	clear()
 	var pilihan, banyakPengguna, banyakAdmin int
 	var bayar float64
 	var p data
@@ -304,9 +305,9 @@ func painjol(p *data, pinjol *bool, bPengguna, idx *int, bayar *float64) {
 				*pinjol = true
 			}
 		}
-		fmt.Printf("%s, Anda telah meminjam sebesar %.2f dengan tenor selama %d bulan\n", p[*idx].nama, (*p)[*idx].totalPinjaman, (*p)[*idx].tenor)
 		pinjem = false
-
+		clear()
+		fmt.Printf("%s, Anda telah meminjam sebesar %.2f dengan tenor selama %d bulan\n", p[*idx].nama, (*p)[*idx].totalPinjaman, (*p)[*idx].tenor)
 	}
 }
 
@@ -327,11 +328,13 @@ func ubahUser(p *data, idx int) {
 		fmt.Scan(&pilih)
 		switch pilih {
 		case 1:
-			fmt.Println("Nama Baru :")
+			fmt.Print("Nama Baru : ")
 			fmt.Scan(&p[idx].nama)
+			clear()
 		case 2:
-			fmt.Println("Password Baru :")
+			fmt.Print("Password Baru : ")
 			fmt.Scan(&p[idx].password)
+			clear()
 		default:
 			fmt.Println("Input Tidak Sesuai")
 		}
@@ -711,6 +714,7 @@ func clear() {
 	cmd.Run()
 }
 func caridata(p data, bPengguna int) {
+	clear()
 	var x string
 	var cek int
 	cetaktotal(p, bPengguna)
